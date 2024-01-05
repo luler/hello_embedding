@@ -7,3 +7,5 @@ services:
       dockerfile: Dockerfile
     ports:
       - 8000:8000
+    volumes:
+      - ./sentence_transformers:/root/.cache/torch/sentence_transformers
