@@ -33,3 +33,5 @@ docker-compose up -d
 与openai的embeddings接口兼容
 
 参考：https://platform.openai.com/docs/guides/embeddings
+
+![](example.png)
