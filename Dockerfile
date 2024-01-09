@@ -10,6 +10,9 @@ COPY . .
 # 安装依赖
 RUN pip install -i https://mirror.baidu.com/pypi/simple -r requirements.txt
 
+# 下载模型
+RUN python -c "from sentence_transformers import SentenceTransformer; import torch; SentenceTransformer('BAAI/bge-large-zh-v1.5', device=('cuda' if torch.cuda.is_available() else 'cpu'))"
+
 # 暴露端口
 EXPOSE 8000
 
