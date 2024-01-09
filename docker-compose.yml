@@ -2,6 +2,7 @@ version: '2'
 
 services:
   app:
+    image: dreamplay/hello_embedding
     build:
       context: .
       dockerfile: Dockerfile
