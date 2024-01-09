@@ -3,8 +3,8 @@ version: '2'
 services:
   app:
     image: dreamplay/hello_embedding
-    build:
-      context: .
-      dockerfile: Dockerfile
+    #    build:
+    #      context: .
+    #      dockerfile: Dockerfile
     ports:
       - 8000:8000
