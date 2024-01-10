@@ -28,7 +28,7 @@ docker-compose up -d
 
 ## 相关接口
 
-提供的接口：http://127.0.0.1:8000/api/embeddings
+提供的接口：http://127.0.0.1:8000/v1/embeddings
 
 与openai的embeddings接口兼容
 
