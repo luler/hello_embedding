@@ -10,8 +10,18 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from sentence_transformers import SentenceTransformer
 
-# set Embedding Model path
+# 设置文本向量模型
 EMBEDDING_PATH = os.environ.get('EMBEDDING_PATH', 'BAAI/bge-large-zh-v1.5')
+# 设置服务监听ip
+EMBEDDING_HOST = os.environ.get('EMBEDDING_HOST', '0.0.0.0')
+# 设置服务监听端口
+EMBEDDING_PORT = int(os.environ.get('EMBEDDING_PORT', 8000))
+# 设置服务进程数量
+EMBEDDING_WORKERS = int(os.environ.get('EMBEDDING_WORKERS', 1))
+
+# 模型全局变量
+device = "cuda" if torch.cuda.is_available() else "cpu"
+embedding_model = SentenceTransformer(EMBEDDING_PATH, device=device)
 
 
 @asynccontextmanager
@@ -45,6 +55,7 @@ class EmbeddingResponse(BaseModel):
     usage: dict
 
 
+# 提取文本向量接口
 @app.post("/v1/embeddings", response_model=EmbeddingResponse)
 async def get_embeddings(request: EmbeddingRequest):
     embeddings = [embedding_model.encode(text) for text in request.input]
@@ -78,7 +89,10 @@ async def get_embeddings(request: EmbeddingRequest):
     return response
 
 
+# 开启服务
+def start_server():
+    uvicorn.run("main:app", host=EMBEDDING_HOST, port=EMBEDDING_PORT, workers=EMBEDDING_WORKERS)
+
+
 if __name__ == "__main__":
-    device = "cuda" if torch.cuda.is_available() else "cpu"
-    embedding_model = SentenceTransformer(EMBEDDING_PATH, device=device)
-    uvicorn.run(app, host='0.0.0.0', port=8000, workers=1)
+    start_server()
