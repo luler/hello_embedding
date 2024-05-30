@@ -8,7 +8,7 @@ WORKDIR /app
 COPY requirements.txt requirements.txt
 
 # 安装依赖
-RUN pip install -i https://mirror.baidu.com/pypi/simple -r requirements.txt
+RUN pip install -r requirements.txt
 
 # 复制当前目录中的文件到工作目录中
 COPY . .
