@@ -42,6 +42,7 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKER_USER }}/${{ env.REPO_NAME }}:bge-large-zh-v1.5
+            ${{ secrets.DOCKER_USER }}/${{ env.REPO_NAME }}:bge-large-zh-v1.5-${{ env.DATE }}
             ${{ secrets.DOCKER_USER }}/${{ env.REPO_NAME }}:latest
 
       - name: Logout from Docker Hub
