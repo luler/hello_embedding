@@ -40,7 +40,9 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ secrets.DOCKER_USER }}/${{ env.REPO_NAME }}:Dmeta-embedding-zh
+          tags: |
+            ${{ secrets.DOCKER_USER }}/${{ env.REPO_NAME }}:Dmeta-embedding-zh-${{ env.DATE }}
+            ${{ secrets.DOCKER_USER }}/${{ env.REPO_NAME }}:Dmeta-embedding-zh
 
       - name: Logout from Docker Hub
         run: docker logout
