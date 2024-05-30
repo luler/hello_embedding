@@ -1,6 +1,6 @@
 import os
 from contextlib import asynccontextmanager
-from typing import List
+from typing import List, Union
 
 import tiktoken
 import torch
@@ -44,7 +44,7 @@ app.add_middleware(
 
 
 class EmbeddingRequest(BaseModel):
-    input: List[str]
+    input: Union[str, List[str]]
     model: str
 
 
@@ -58,7 +58,8 @@ class EmbeddingResponse(BaseModel):
 # 提取文本向量接口
 @app.post("/v1/embeddings", response_model=EmbeddingResponse)
 async def get_embeddings(request: EmbeddingRequest):
-    embeddings = [embedding_model.encode(text) for text in request.input]
+    input_texts = request.input if isinstance(request.input, list) else [request.input]
+    embeddings = [embedding_model.encode(text) for text in input_texts]
     embeddings = [embedding.tolist() for embedding in embeddings]
 
     def num_tokens_from_string(string: str) -> int:
@@ -82,8 +83,8 @@ async def get_embeddings(request: EmbeddingRequest):
         "model": request.model,
         "object": "list",
         "usage": {
-            "prompt_tokens": sum(len(text.split()) for text in request.input),  # how many characters in prompt
-            "total_tokens": sum(num_tokens_from_string(text) for text in request.input),  # how many tokens (encoding)
+            "prompt_tokens": sum(len(text.split()) for text in input_texts),  # how many characters in prompt
+            "total_tokens": sum(num_tokens_from_string(text) for text in input_texts),  # how many tokens (encoding)
         },
     }
     return response
