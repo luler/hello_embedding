@@ -1,3 +1,4 @@
+huggingface_hub==0.25.*
 uvicorn==0.25.*
 torch==2.1.*
 sentence_transformers==2.2.*
