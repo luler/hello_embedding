@@ -14,7 +14,7 @@ RUN pip install -r requirements.txt
 COPY . .
 
 #默认模型
-ENV EMBEDDING_PATH=BAAI/bge-large-zh-v1.5
+ENV EMBEDDING_PATH=BAAI/bge-m3
 
 # 下载模型
 RUN python -c "from sentence_transformers import SentenceTransformer; import torch; import os; SentenceTransformer(os.environ.get('EMBEDDING_PATH'), device=('cuda' if torch.cuda.is_available() else 'cpu'))"
